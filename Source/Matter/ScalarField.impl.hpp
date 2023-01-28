@@ -109,6 +109,9 @@ void ScalarField<potential_t>::matter_rhs_excl_potential(
     const auto chris = compute_christoffel(d1.h, h_UU);
 
     // evolution equations for scalar field and (minus) its conjugate momentum
+
+    // TODO(morris) add 1, 2, 3
+
     rhs.phi = vars.lapse * vars.Pi + advec.phi;
     rhs.Pi = vars.lapse * vars.K * vars.Pi + advec.Pi;
 
