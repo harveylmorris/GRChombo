@@ -110,13 +110,13 @@ void ScalarField<potential_t>::matter_rhs_excl_potential(
 
     // evolution equations for scalar field and (minus) its conjugate momentum
 
-    // TODO(morris) add 1, 2, 3
+    // TODO(morris) change to include 1, 2, 3
 
     rhs.phi = vars.lapse * vars.Pi + advec.phi;
     rhs.Pi = vars.lapse * vars.K * vars.Pi + advec.Pi;
 
     FOR(i, j)
-    {
+    
         // includes non conformal parts of chris not included in chris_ULL
         rhs.Pi += h_UU[i][j] * (-0.5 * d1.chi[j] * vars.lapse * d1.phi[i] +
                                 vars.chi * vars.lapse * d2.phi[i][j] +
@@ -126,7 +126,39 @@ void ScalarField<potential_t>::matter_rhs_excl_potential(
             rhs.Pi += -vars.chi * vars.lapse * h_UU[i][j] * chris.ULL[k][i][j] *
                       d1.phi[k];
         }
-    }
+    
+
+
+    //rhs.phi1 = vars.lapse * vars.Pi1 + advec.phi1;
+    //rhs.phi2 = vars.lapse * vars.Pi2 + advec.phi2;
+    //rhs.phi3 = vars.lapse * vars.Pi3 + advec.phi3;
+    //rhs.Pi1 = vars.lapse * vars.K * vars.Pi1 + advec.Pi1;
+    //rhs.Pi2 = vars.lapse * vars.K * vars.Pi2 + advec.Pi2;
+    //rhs.Pi3 = vars.lapse * vars.K * vars.Pi3 + advec.Pi3;
+
+    //FOR(i, j)
+    //{
+        // includes non conformal parts of chris not included in chris_ULL
+    //    rhs.Pi1 += h_UU[i][j] * (-0.5 * d1.chi[j] * vars.lapse * d1.phi1[i] +
+    //                            vars.chi * vars.lapse * d2.phi1[i][j] +
+    //                            vars.chi * d1.lapse[i] * d1.phi1[j]);
+    //    rhs.Pi2 += h_UU[i][j] * (-0.5 * d1.chi[j] * vars.lapse * d1.phi2[i] +
+    //                            vars.chi * vars.lapse * d2.phi2[i][j] +
+    //                            vars.chi * d1.lapse[i] * d1.phi2[j]);
+    //    rhs.Pi3 += h_UU[i][j] * (-0.5 * d1.chi[j] * vars.lapse * d1.phi3[i] +
+    //                            vars.chi * vars.lapse * d2.phi3[i][j] +
+    //                            vars.chi * d1.lapse[i] * d1.phi3[j]);
+    //    FOR(k)
+    //    {
+    //        rhs.Pi1 += -vars.chi * vars.lapse * h_UU[i][j] * chris.ULL[k][i][j] *
+    //                  d1.phi1[k];
+    //        rhs.Pi2 += -vars.chi * vars.lapse * h_UU[i][j] * chris.ULL[k][i][j] *
+    //                  d1.phi2[k];
+    //        rhs.Pi3 += -vars.chi * vars.lapse * h_UU[i][j] * chris.ULL[k][i][j] *
+    //                  d1.phi3[k];
+    //    }
+    //}
+
 }
 
 #endif /* SCALARFIELD_IMPL_HPP_ */

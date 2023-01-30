@@ -15,6 +15,11 @@
 #include "VarsTools.hpp"
 #include "simd.hpp"
 
+// morris: reading initial data from text file and storing contents in an array
+#include <iostream>
+#include <fstream>
+#include <vector>
+
 //! Class which sets the initial scalar field matter config
 class InitialScalarData
 {
@@ -48,7 +53,7 @@ class InitialScalarData
                      (1.0 + 0.01 * rr2 * exp(-pow(rr / m_params.width, 2.0)));
 
         // store the vars
-        // TODO(morris): remove and add c_phi1, c_phi2, c_phi3, c_pi1, c_pi2, c_pi3
+        // TODO(morris): remove // and switch to 3 dimensions
         current_cell.store_vars(phi, c_phi);
         current_cell.store_vars(0.0, c_Pi);
         // current_cell.store_vars(phi1, c_phi1);
@@ -62,6 +67,33 @@ class InitialScalarData
         current_cell.store_vars(1.0, c_h11);
         current_cell.store_vars(1.0, c_h22);
         current_cell.store_vars(1.0, c_h33);
+
+
+        // LOADING IN INITIAL DATA INTO ARRAY:
+        // open file for reading
+        ifstream file("phi.txt");
+        // determine number of elements in the file
+        int num_elements;
+        file >> num_elements;
+        // create an array of the desired size
+        vector<float> initial_phi(num_element);
+        // read initial phi values in
+        for (int i = 0; i < num_elements; ++i) {
+            file >> initial_phi[i];
+        }
+        // close the file
+        file.close();
+
+        // doing the same for the r value
+        ifstream file("r.txt");
+        // determine number of elements in r should be the same as in phi
+        vector<float> initial_r(num_element);
+        for (int i = 0; i < num_elements; ++i) {
+            file >> initial_r[i];
+        }
+        file.close();
+
+        // TODO(morris) not sure how to add to current cell
     }
 
   protected:
