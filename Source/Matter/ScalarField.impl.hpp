@@ -116,7 +116,7 @@ void ScalarField<potential_t>::matter_rhs_excl_potential(
     rhs.Pi = vars.lapse * vars.K * vars.Pi + advec.Pi;
 
     FOR(i, j)
-    
+    {
         // includes non conformal parts of chris not included in chris_ULL
         rhs.Pi += h_UU[i][j] * (-0.5 * d1.chi[j] * vars.lapse * d1.phi[i] +
                                 vars.chi * vars.lapse * d2.phi[i][j] +
@@ -126,7 +126,7 @@ void ScalarField<potential_t>::matter_rhs_excl_potential(
             rhs.Pi += -vars.chi * vars.lapse * h_UU[i][j] * chris.ULL[k][i][j] *
                       d1.phi[k];
         }
-    
+    }
 
 
     //rhs.phi1 = vars.lapse * vars.Pi1 + advec.phi1;
