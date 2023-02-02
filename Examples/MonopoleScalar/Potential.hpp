@@ -16,8 +16,8 @@ class Potential
         // morris:
         // added in lambda and eta
         double scalar_mass;
-        double lambda;
-        double eta;
+        double pot_lambda;
+        double pot_eta;
     };
 
   private:
@@ -35,7 +35,7 @@ class Potential
         // morris: OLD:
         // The potential value at phi
         // 1/2 m^2 phi^2
-        //V_of_phi = 0.5 * pow(m_params.scalar_mass * vars.phi, 2.0);
+        // V_of_phi = 0.5 * pow(m_params.scalar_mass * vars.phi, 2.0);
         // The potential gradient at phi
         // m^2 phi
         // dVdphi = pow(m_params.scalar_mass, 2.0) * vars.phi;
@@ -44,10 +44,12 @@ class Potential
         // The potential value at phi
         // lambda / 4 * (phi^2 - eta^2)^2
         // add in for 1,2,3
-        V_of_phi = 0.25 * m_params.lambda * pow(pow(vars.phi, 2) - pow(m_params.eta, 2), 2);
+        V_of_phi = 0.25 * m_params.pot_lambda *
+                   pow(pow(vars.phi, 2) - pow(m_params.pot_eta, 2), 2);
         // The potential gradient at phi
         // lambda * phi * (phi^2 - eta^2)
-        dVdphi = m_params.lambda * vars.phi * (pow(vars.phi, 2) - pow(m_params.eta, 2));
+        dVdphi = m_params.pot_lambda * vars.phi *
+                 (pow(vars.phi, 2) - pow(m_params.pot_eta, 2));
     }
 };
 

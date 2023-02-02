@@ -15,9 +15,10 @@
 #include "KerrBH.hpp"
 #include "Potential.hpp"
 
-// morris: reading initial data from text file and storing contents in an array (files phi.txt and r.txt)
-#include <iostream>
+// morris: reading initial data from text file and storing contents in an array
+// (files phi.txt and r.txt)
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 class SimulationParameters : public SimulationParametersBase
@@ -47,41 +48,25 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("kerr_center", kerr_params.center, center);
 
         // morris: adding parameters for potential
-        double eta = 0.07;
-        pp.load("lambda", potential_params.lambda, 1.0);
-        pp.load("eta", potential_params.eta, eta);
-        pp.load("initial_eta", initial_params.eta, eta); // for InitialScalarData.hpp
+        pp.load("pot_lambda", potential_params.pot_lambda);
+        pp.load("pot_eta", potential_params.pot_eta);
+        initial_params.pot_eta = potential_params.pot_eta;
 
-        // morris: adding initial potential parameters
-        // LOADING IN INITIAL DATA INTO ARRAY:
-        // open file for reading
-        ifstream initial_f_file("flatspace_initial_f_eta7e-2.txt");
-        // determine number of elements in the file
         int num_elements;
-        initial_f_file >> num_elements;
-        // create an array of the desired size
-        vector<float> initial_f(num_elements);
-        // read initial f values in
-        for (int i = 0; i < num_elements; ++i) {
-            initial_f_file >> initial_f[i];
+        pp.load("num_elements", num_elements);
+        pp.load("spacing", initial_params.spacing);
+        double initial_f[num_elements];
+
+        ifstream initial_f_file("flatspace_initial_f_eta7e-2.txt");
+        double tmp = 0;
+        for (int i = 0; i < num_elements; ++i)
+        {
+            initial_f_file >> tmp;
+            initial_f[i] = tmp;
         }
-        // close the file
         initial_f_file.close();
 
-        // doing the same for the r value
-        ifstream initial_r_file("flatspace_initial_r_eta7e-2.txt");
-        vector<float> initial_r(num_elements);
-        for (int i = 0; i < num_elements; ++i) {
-            initial_r_file >> initial_r[i];
-        }
-        initial_r_file.close();
-
-
-        // QUESTION 1: get error "no matching member function for call to 'load'" as third argument is normally an int
-        // However I need this to be a vector
-        pp.load("initial_f", initial_params.initial_f, initial_f);
-        pp.load("initial_r", initial_params.initial_r, initial_r);
-
+        initial_params.p_initial_f = initial_f;
     }
 
     void check_params()

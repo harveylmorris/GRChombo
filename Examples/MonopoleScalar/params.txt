@@ -46,7 +46,12 @@ G_Newton = 0.0
 # Scalar field initial data
 scalar_amplitude = 0.1
 scalar_width = 5.0
-scalar_mass = 0.2
+scalar_mass = 1e-5  #not used
+
+pot_eta = 0.07
+pot_lambda = 1
+spacing = 0.1
+num_elements = 10000 	#if it is larger that what is specified, it will use the last value to extrapolate
 
 # Kerr BH data
 kerr_mass = 1.0
@@ -66,7 +71,7 @@ N_full = 128
 L_full = 256
 
 # Maximum number of times you can regrid above coarsest level
-max_level = 6 # There are (max_level+1) grids, so min is zero
+max_level = 0 # There are (max_level+1) grids, so min is zero
 
 # Frequency of regridding at each level and thresholds on the tagging
 # Need one for each level except the top one, ie max_level items
@@ -98,8 +103,8 @@ isPeriodic = 0 0 0
 # 0 = static, 1 = sommerfeld, 2 = reflective
 # 3 = extrapolating, 4 = mixed
 # (see BoundaryConditions.hpp for details)
-hi_boundary = 4 4 4
-lo_boundary = 2 2 2
+hi_boundary = 0 0 0
+lo_boundary = 0 0 0
 
 # if reflective boundaries selected, must set
 # parity of all vars (in order given by UserVariables.hpp)
