@@ -61,8 +61,8 @@ class InitialScalarData
         double width; //!< Width of bump in initial SF bubble
         // morris
         double eta;
-        vector<float> initial_f;
-        vector<float> initial_r;
+        vector<double> initial_f;
+        vector<double> initial_r;
     };
 
     //! The constructor
@@ -76,15 +76,16 @@ class InitialScalarData
     {
         // where am i?
         Coordinates<data_t> coords(current_cell, m_dx, m_params.center);
-        data_t rr = coords.get_radius();
+        // QUESTION 1: coords.get_radius() is by default simd<double> (data_t I think) but I need it to be a double
+        double rr = coords.get_radius();
 
         // morris: calculate the field value
         // field configuration describing a monopole is phi^a = eta * f(r) * x^a / r
         // first we find f based on r
-        double f = linearInterpolation(rr, m_params.initial_r, m_params.initial_f)
+        double f = linearInterpolation(rr, m_params.initial_r, m_params.initial_f);
         // then we find phi^a
         // starting with just one scalar field so let's use x coordinate
-        // JOSU: should I used coords.x or m_params.center[0]?
+        // QUESTION 2: should I used coords.x or m_params.center[0]?
         if (rr == 0) {
             data_t phi = m_params.eta * f;
         } else {
