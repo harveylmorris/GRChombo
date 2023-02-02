@@ -32,9 +32,9 @@ enum
 namespace UserVariables
 {
 static const std::array<std::string, NUM_VARS - NUM_CCZ4_VARS>
-    // TODO(morris):
-    // add in 1,2,3
     user_variable_names = {"phi", "Pi"};
+    // TODO(morris):
+    // user_variable_names = {"phi1", "phi2", "phi3", "Pi1", "Pi2", "Pi3"};
 
 static const std::array<std::string, NUM_VARS> variable_names =
     ArrayTools::concatenate(ccz4_variable_names, user_variable_names);

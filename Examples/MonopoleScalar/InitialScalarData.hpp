@@ -15,10 +15,37 @@
 #include "VarsTools.hpp"
 #include "simd.hpp"
 
-// morris: reading initial data from text file and storing contents in an array
+
+// morris: code for linear interpolation
 #include <iostream>
-#include <fstream>
 #include <vector>
+
+double linearInterpolation(double x, const std::vector<double> &X, const std::vector<double> &Y) {
+  int n = X.size();
+  if (n != Y.size()) {
+    // X and Y should have the same size
+    std::cerr << "Error: X and Y must have the same size." << std::endl;
+    return 0;
+  }
+
+  if (x <= X[0]) {
+    // If x is less than or equal to the first value of X, return the first value of Y
+    return Y[0];
+  }
+
+  if (x >= X[n - 1]) {
+    // If x is greater than or equal to the last value of X, return the last value of Y
+    return Y[n - 1];
+  }
+
+  // Find the index of the largest value in X that is less than or equal to x
+  auto it = std::lower_bound(X.begin(), X.end(), x);
+  int i = it - X.begin() - 1;
+
+  // Perform linear interpolation between Y[i] and Y[i + 1]
+  return Y[i] + (Y[i + 1] - Y[i]) * (x - X[i]) / (X[i + 1] - X[i]);
+}
+
 
 //! Class which sets the initial scalar field matter config
 class InitialScalarData
@@ -32,6 +59,10 @@ class InitialScalarData
         std::array<double, CH_SPACEDIM>
             center;   //!< Centre of perturbation in initial SF bubble
         double width; //!< Width of bump in initial SF bubble
+        // morris
+        double eta;
+        vector<float> initial_f;
+        vector<float> initial_r;
     };
 
     //! The constructor
@@ -46,12 +77,20 @@ class InitialScalarData
         // where am i?
         Coordinates<data_t> coords(current_cell, m_dx, m_params.center);
         data_t rr = coords.get_radius();
-        data_t rr2 = rr * rr;
 
-        // calculate the field value
-        data_t phi = m_params.amplitude *
-                     (1.0 + 0.01 * rr2 * exp(-pow(rr / m_params.width, 2.0)));
-
+        // morris: calculate the field value
+        // field configuration describing a monopole is phi^a = eta * f(r) * x^a / r
+        // first we find f based on r
+        double f = linearInterpolation(rr, m_params.initial_r, m_params.initial_f)
+        // then we find phi^a
+        // starting with just one scalar field so let's use x coordinate
+        // JOSU: should I used coords.x or m_params.center[0]?
+        if (rr == 0) {
+            data_t phi = m_params.eta * f;
+        } else {
+            data_t phi = m_params.eta * f * coords.x / rr;
+        }
+        
         // store the vars
         // TODO(morris): remove // and switch to 3 dimensions
         current_cell.store_vars(phi, c_phi);
@@ -67,33 +106,7 @@ class InitialScalarData
         current_cell.store_vars(1.0, c_h11);
         current_cell.store_vars(1.0, c_h22);
         current_cell.store_vars(1.0, c_h33);
-
-
-        // LOADING IN INITIAL DATA INTO ARRAY:
-        // open file for reading
-        ifstream file("phi.txt");
-        // determine number of elements in the file
-        int num_elements;
-        file >> num_elements;
-        // create an array of the desired size
-        vector<float> initial_phi(num_element);
-        // read initial phi values in
-        for (int i = 0; i < num_elements; ++i) {
-            file >> initial_phi[i];
-        }
-        // close the file
-        file.close();
-
-        // doing the same for the r value
-        ifstream file("r.txt");
-        // determine number of elements in r should be the same as in phi
-        vector<float> initial_r(num_element);
-        for (int i = 0; i < num_elements; ++i) {
-            file >> initial_r[i];
-        }
-        file.close();
-
-        // TODO(morris) not sure how to add to current cell
+        
     }
 
   protected:
@@ -102,3 +115,8 @@ class InitialScalarData
 };
 
 #endif /* INITIALSCALARDATA_HPP_ */
+
+
+
+
+

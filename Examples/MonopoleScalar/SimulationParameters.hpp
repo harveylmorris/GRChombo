@@ -15,6 +15,11 @@
 #include "KerrBH.hpp"
 #include "Potential.hpp"
 
+// morris: reading initial data from text file and storing contents in an array (files phi.txt and r.txt)
+#include <iostream>
+#include <fstream>
+#include <vector>
+
 class SimulationParameters : public SimulationParametersBase
 {
   public:
@@ -42,8 +47,39 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("kerr_center", kerr_params.center, center);
 
         // morris: adding parameters for potential
+        double eta = 0.07;
         pp.load("lambda", potential_params.lambda, 1.0);
-        pp.load("eta", potential_params.eta, 0.01);
+        pp.load("eta", potential_params.eta, eta);
+        pp.load("initial_eta", initial_params.eta, eta); // for InitialScalarData.hpp
+
+        // morris: adding initial potential parameters
+        // LOADING IN INITIAL DATA INTO ARRAY:
+        // open file for reading
+        ifstream file("flatspace_initial_f_eta7e-2.txt");
+        // determine number of elements in the file
+        int num_elements;
+        file >> num_elements;
+        // create an array of the desired size
+        vector<float> initial_f(num_elements);
+        // read initial f values in
+        for (int i = 0; i < num_elements; ++i) {
+            file >> initial_f[i];
+        }
+        // close the file
+        file.close();
+
+        // doing the same for the r value
+        ifstream file("flatspace_initial_r_eta7e-2.txt");
+        vector<float> initial_r(num_elements);
+        for (int i = 0; i < num_elements; ++i) {
+            file >> initial_r[i];
+        }
+        file.close();
+
+        pp.load("initial_f", initial_params.initial_f, initial_f);
+        pp.load("initial_r", initial_params.initial_r, initial_r);
+
+        // TODO load into current cell
 
     }
 

@@ -43,6 +43,7 @@ class Potential
         // morris NEW:
         // The potential value at phi
         // lambda / 4 * (phi^2 - eta^2)^2
+        // add in for 1,2,3
         V_of_phi = 0.25 * m_params.lambda * pow(pow(vars.phi, 2) - pow(m_params.eta, 2), 2);
         // The potential gradient at phi
         // lambda * phi * (phi^2 - eta^2)
