@@ -24,8 +24,8 @@ enum
 
     // NEW
     c_phi1 = NUM_CCZ4_VARS, // matter field 1 added
-    c_phi2 = NUM_CCZ4_VARS, // matter field 2 added
-    c_phi3 = NUM_CCZ4_VARS, // matter field 3 added
+    c_phi2,		    // matter field 2 added
+    c_phi3, 		    // matter field 3 added
     c_Pi1,                  //(minus) conjugate momentum 1
     c_Pi2,                  //(minus) conjugate momentum 2
     c_Pi3,                  //(minus) conjugate momentum 3
