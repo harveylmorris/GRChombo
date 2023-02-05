@@ -65,19 +65,27 @@ class InitialScalarData
 
         data_t f =
             f_data_L + (rho / m_params.spacing - indxL) * (f_data_H - f_data_L);
+        
+        /////////////////////////////////////
+        // OLD
+        //data_t phi = m_params.pot_eta * f * coords.x / rr;
+        // store the vars
+        //current_cell.store_vars(phi, c_phi);
+        //current_cell.store_vars(0.0, c_Pi);
+        /////////////////////////////////////
 
-        data_t phi = m_params.pot_eta * f * coords.x / rr;
+        // NEW
+        data_t phi1 = m_params.pot_eta * f * coords.x / rr;
+        data_t phi2 = m_params.pot_eta * f * coords.y / rr;
+        data_t phi3 = m_params.pot_eta * f * coords.z / rr;
 
         // store the vars
-        // TODO(morris): remove // and switch to 3 dimensions
-        current_cell.store_vars(phi, c_phi);
-        current_cell.store_vars(0.0, c_Pi);
-        // current_cell.store_vars(phi1, c_phi1);
-        // current_cell.store_vars(phi2, c_phi2);
-        // current_cell.store_vars(phi3, c_phi3);
-        // current_cell.store_vars(0.0, c_Pi1);
-        // current_cell.store_vars(0.0, c_Pi2);
-        // current_cell.store_vars(0.0, c_Pi3);
+        current_cell.store_vars(phi1, c_phi1);
+        current_cell.store_vars(phi2, c_phi2);
+        current_cell.store_vars(phi3, c_phi3);
+        current_cell.store_vars(0.0, c_Pi1);
+        current_cell.store_vars(0.0, c_Pi2);
+        current_cell.store_vars(0.0, c_Pi3);
 
         // morris: adding metric components
         current_cell.store_vars(1.0, c_chi);

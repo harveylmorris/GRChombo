@@ -42,16 +42,38 @@ template <class potential_t = DefaultPotential> class ScalarField
     //! Structure containing the rhs variables for the matter fields
     template <class data_t> struct Vars
     {
-        data_t phi;
-        data_t Pi;
+        /////////////////////////////////////
+        // OLD
+        //data_t phi;
+        //data_t Pi;
+        /////////////////////////////////////
+    
+        // NEW
+        data_t phi1;
+        data_t phi2;
+        data_t phi3;
+        data_t Pi1;
+        data_t Pi2;
+        data_t Pi3;
 
         /// Defines the mapping between members of Vars and Chombo grid
         /// variables (enum in User_Variables)
         template <typename mapping_function_t>
         void enum_mapping(mapping_function_t mapping_function)
         {
-            VarsTools::define_enum_mapping(mapping_function, c_phi, phi);
-            VarsTools::define_enum_mapping(mapping_function, c_Pi, Pi);
+            /////////////////////////////////////
+            // OLD
+            //VarsTools::define_enum_mapping(mapping_function, c_phi, phi);
+            //VarsTools::define_enum_mapping(mapping_function, c_Pi, Pi);
+            /////////////////////////////////////
+        
+            // NEW
+            VarsTools::define_enum_mapping(mapping_function, c_phi1, phi1);
+            VarsTools::define_enum_mapping(mapping_function, c_phi2, phi2);
+            VarsTools::define_enum_mapping(mapping_function, c_phi3, phi3);
+            VarsTools::define_enum_mapping(mapping_function, c_Pi1, Pi1);
+            VarsTools::define_enum_mapping(mapping_function, c_Pi2, Pi2);
+            VarsTools::define_enum_mapping(mapping_function, c_Pi3, Pi3);
         }
     };
 
@@ -59,14 +81,30 @@ template <class potential_t = DefaultPotential> class ScalarField
     //!  2nd derivs
     template <class data_t> struct Diff2Vars
     {
-        data_t phi;
+        /////////////////////////////////////
+        // OLD
+        //data_t phi;
+        /////////////////////////////////////
+        
+        // NEW
+        data_t phi1;
+        data_t phi2;
+        data_t phi3;
 
         /// Defines the mapping between members of Vars and Chombo grid
         ///  variables (enum in User_Variables)
         template <typename mapping_function_t>
         void enum_mapping(mapping_function_t mapping_function)
         {
-            VarsTools::define_enum_mapping(mapping_function, c_phi, phi);
+            /////////////////////////////////////
+            // OLD
+            //VarsTools::define_enum_mapping(mapping_function, c_phi, phi);
+            /////////////////////////////////////
+            
+            // NEW
+            VarsTools::define_enum_mapping(mapping_function, c_phi1, phi1);
+            VarsTools::define_enum_mapping(mapping_function, c_phi2, phi2);
+            VarsTools::define_enum_mapping(mapping_function, c_phi3, phi3);
         }
     };
 
