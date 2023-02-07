@@ -93,25 +93,35 @@ void ScalarField<potential_t>::emtensor_excl_potential(
 
     // NEW
     // Useful quantity Vt
-    data_t Vt = -vars.Pi1 * vars.Pi1 -vars.Pi2 * vars.Pi2 -vars.Pi3 * vars.Pi3;
-    FOR(i, j) { Vt += vars.chi * h_UU[i][j] * (d1.phi1[i] * d1.phi1[j] + d1.phi2[i] * d1.phi2[j] + d1.phi3[i] * d1.phi3[j]); }
+    data_t Vt = -vars.Pi1 * vars.Pi1 -
+                vars.Pi2 * vars.Pi2 -
+                vars.Pi3 * vars.Pi3;
+    FOR(i, j) { Vt += vars.chi * h_UU[i][j] * (d1.phi1[i] * d1.phi1[j] +
+                                               d1.phi2[i] * d1.phi2[j] +
+                                               d1.phi3[i] * d1.phi3[j]); }
 
     // Calculate components of EM Tensor
     // S_ij = T_ij
     FOR(i, j)
     {
         out.Sij[i][j] =
-            -0.5 * vars.h[i][j] * Vt / vars.chi + (d1.phi1[i] * d1.phi1[j] + d1.phi2[i] * d1.phi2[j] + d1.phi3[i] * d1.phi3[j]);
+            -0.5 * vars.h[i][j] * Vt / vars.chi + (d1.phi1[i] * d1.phi1[j] +
+                                                   d1.phi2[i] * d1.phi2[j] +
+                                                   d1.phi3[i] * d1.phi3[j]);
     }
 
     // S = Tr_S_ij
     out.S = vars.chi * TensorAlgebra::compute_trace(out.Sij, h_UU);
 
     // S_i (note lower index) = - n^a T_ai
-    FOR(i) { out.Si[i] = -(d1.phi1[i] * vars.Pi1 + d1.phi2[i] * vars.Pi2 + d1.phi3[i] * vars.Pi3); }
+    FOR(i) { out.Si[i] = -(d1.phi1[i] * vars.Pi1 +
+                           d1.phi2[i] * vars.Pi2 +
+                           d1.phi3[i] * vars.Pi3); }
 
     // rho = n^a n^b T_ab
-    out.rho = (vars.Pi1 * vars.Pi1 + vars.Pi2 * vars.Pi2 + vars.Pi3 * vars.Pi3) + 0.5 * Vt;
+    out.rho = vars.Pi1 * vars.Pi1 +
+              vars.Pi2 * vars.Pi2 +
+              vars.Pi3 * vars.Pi3 + 0.5 * Vt;
 
 }
 
