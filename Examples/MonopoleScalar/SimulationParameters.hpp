@@ -16,7 +16,7 @@
 #include "Potential.hpp"
 
 // morris: reading initial data from text file and storing contents in an array
-// (files phi.txt and r.txt)
+// files phi.txt
 #include <fstream>
 #include <iostream>
 #include <vector>
