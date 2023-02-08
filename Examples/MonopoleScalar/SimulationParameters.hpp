@@ -47,6 +47,10 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("kerr_spin", kerr_params.spin, 0.0);
         pp.load("kerr_center", kerr_params.center, center);
 
+        // Adding monopole centers
+        pp.load("center_monopole1", initial_params.center_monopole1);
+        pp.load("center_monopole2", initial_params.center_monopole2);
+
         // morris: adding parameters for potential
         pp.load("pot_lambda", potential_params.pot_lambda);
         pp.load("pot_eta", potential_params.pot_eta);

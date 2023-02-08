@@ -33,6 +33,10 @@ class InitialScalarData
         double amplitude; //!< Amplitude of bump in initial SF bubble
         std::array<double, CH_SPACEDIM>
             center;   //!< Centre of perturbation in initial SF bubble
+        std::array<double, CH_SPACEDIM>
+            center_monopole1;   //!< Centre of perturbation in initial SF bubble
+        std::array<double, CH_SPACEDIM>
+            center_monopole2;   //!< Centre of perturbation in initial SF bubble
         double width; //!< Width of bump in initial SF bubble
         // morris
         double pot_eta;
@@ -49,9 +53,22 @@ class InitialScalarData
     //! Function to compute the value of all the initial vars on the grid
     template <class data_t> void compute(Cell<data_t> current_cell) const
     {
-        // where am i?
-        Coordinates<data_t> coords(current_cell, m_dx, m_params.center);
+        // where am i relative to the 2 monopoles?
+        Coordinates<data_t> coords1(current_cell, m_dx, m_params.center_monopole1);
+        data_t rr1 = coords1.get_radius();
+
+        Coordinates<data_t> coords2(current_cell, m_dx, m_params.center_monopole2);
+        data_t rr2 = coords2.get_radius();
+
+        // set to monopole 1 for default
+        Coordinates<data_t> coords = coords1;
+        // change to monopole 2 if closer to it
+        if (rr1 > rr2) {
+            coords = coords2; //(current_cell, m_dx, m_params.center_monopole2);
+        }
+
         data_t rr = coords.get_radius();
+
         double rho = sqrt(coords.x * coords.x + coords.y * coords.y +
                           coords.z * coords.z);
 
