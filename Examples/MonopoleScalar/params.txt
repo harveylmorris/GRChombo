@@ -52,8 +52,8 @@ pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
 num_elements = 10000 	#if it is larger that what is specified, it will use the last value to extrapolate
-center_monopole1 = 256 192 256
-center_monopole2 = 256 320 256
+center_monopole1 = 256 256 240
+center_monopole2 = 256 256 272
 
 # Kerr BH data
 kerr_mass = 1.0
@@ -70,7 +70,7 @@ kerr_spin = 0.0
 # 'N2' or 'N2_full' and 'N3' or 'N3_full' ( then dx_coarsest = L/N(max) )
 # NB - the N values need to be multiples of the block_factor
 N_full = 128
-L_full = 512
+L_full = 512  # 256
 
 # Maximum number of times you can regrid above coarsest level
 max_level = 0 # There are (max_level+1) grids, so min is zero
