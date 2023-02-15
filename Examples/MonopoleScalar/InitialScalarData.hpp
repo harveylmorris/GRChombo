@@ -42,6 +42,7 @@ class InitialScalarData
         double pot_eta;
         double *p_initial_f;
         double spacing;
+        double twist;
     };
 
     //! The constructor
@@ -97,9 +98,8 @@ class InitialScalarData
         // NEW
         // eqns 22, 23, 24 from https://arxiv.org/pdf/1705.03091.pdf
 
-        double gamma = 0;
-        double s = sin(gamma);
-        double c = cos(gamma);
+        double s = sin(m_params.twist);
+        double c = cos(m_params.twist);
         double z_0 = sqrt((coords1.z - coords.z) * (coords1.z - coords.z));
 
         data_t phi1 = m_params.pot_eta * f1 * f2 * ((c * coords.x + s * coords.y) *

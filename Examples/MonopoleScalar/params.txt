@@ -52,8 +52,9 @@ pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
 num_elements = 10000 	#if it is larger that what is specified, it will use the last value to extrapolate
-center_monopole1 = 256 256 240
-center_monopole2 = 256 256 272
+center_monopole1 = 256 256 224
+center_monopole2 = 256 256 288
+twist = 1.570796326794897  # 3.141592653589793
 
 # Kerr BH data
 kerr_mass = 1.0
