@@ -51,12 +51,12 @@ scalar_mass = 1e-5  #not used
 pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
-num_elements = 10001 	#if it is larger that what is specified, it will use the last value to extrapolate
-center_monopole1 = 256 256 192
-center_monopole2 = 256 256 320
+num_elements = 200001 	#if it is larger that what is specified, it will use the last value to extrapolate
+center_monopole1 = 256 256 198
+center_monopole2 = 256 256 316
 twist = 3.141592653589793  # twist of monopole-antimonopole = pi
 
-vel_z = 0.1
+vel_z = 0.0
 
 # Kerr BH data
 kerr_mass = 1.0
