@@ -51,7 +51,7 @@ scalar_mass = 1e-5  #not used
 pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
-num_elements = 10000 	#if it is larger that what is specified, it will use the last value to extrapolate
+num_elements = 10001 	#if it is larger that what is specified, it will use the last value to extrapolate
 center_monopole1 = 256 256 224
 center_monopole2 = 256 256 288
 twist = 3.141592653589793  # twist of monopole-antimonopole = pi
