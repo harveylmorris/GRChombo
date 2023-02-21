@@ -59,20 +59,32 @@ class SimulationParameters : public SimulationParametersBase
         int num_elements;
         pp.load("num_elements", num_elements);
         pp.load("spacing", initial_params.spacing);
-        double initial_f[num_elements];
-
         pp.load("twist", initial_params.twist);
 
+        double initial_f[num_elements];
+        double initial_f_prime[num_elements];
+
         ifstream initial_f_file("flatspace_initial_f_eta7e-2.txt");
-        double tmp = 0;
+        double tmp1 = 0;
         for (int i = 0; i < num_elements; ++i)
         {
-            initial_f_file >> tmp;
-            initial_f[i] = tmp;
+            initial_f_file >> tmp1;
+            initial_f[i] = tmp1;
         }
         initial_f_file.close();
 
+        ifstream initial_f_prime_file("flatspace_initial_f_prime_eta7e-2.txt");
+        double tmp2 = 0;
+        for (int i = 0; i < num_elements; ++i)
+        {
+            initial_f_prime_file >> tmp2;
+            initial_f_prime[i] = tmp2;
+        }
+        initial_f_prime_file.close();
+
         initial_params.p_initial_f = initial_f;
+        initial_params.p_initial_f_prime = initial_f_prime;
+
     }
 
     void check_params()

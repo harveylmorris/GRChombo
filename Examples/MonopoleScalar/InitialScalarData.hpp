@@ -41,6 +41,7 @@ class InitialScalarData
         // morris
         double pot_eta;
         double *p_initial_f;
+        double *p_initial_f_prime;
         double spacing;
         double twist;
     };
@@ -126,8 +127,11 @@ class InitialScalarData
         int indxH = static_cast<int>(ceil(rho / m_params.spacing));
         double f_data_L = *(m_params.p_initial_f + indxL);
         double f_data_H = *(m_params.p_initial_f + indxH);
+        double f_prime_data_L = *(m_params.p_initial_f_prime + indxL);
+        double f_prime_data_H = *(m_params.p_initial_f_prime + indxH);
 
         data_t f = f_data_L + (rho / m_params.spacing - indxL) * (f_data_H - f_data_L);
+        data_t f_prime = f_prime_data_L + (rho / m_params.spacing - indxL) * (f_prime_data_H - f_prime_data_L);
 
         data_t phi1 = m_params.pot_eta * f * coords.x / rr;
         data_t phi2 = m_params.pot_eta * f * coords.y / rr;
@@ -145,10 +149,15 @@ class InitialScalarData
         //float pi2 = v_y * d1.phi2[2];
         //float pi3 = v_z * d1.phi3[3];
 
-        // pi_x = v_x d/dx (phi)
-        current_cell.store_vars(0.0, c_Pi1);
-        current_cell.store_vars(0.0, c_Pi2);
-        current_cell.store_vars(0.0, c_Pi3);
+        double v = 0.1;  // speed at which monopole is moving
+
+        data_t pi1 = - f_prime * (v * coords.z / rr) * (coords.x / rr) - f * (v * coords.z / rr) * (coords.x / rr / rr);
+        data_t pi2 = - f_prime * (v * coords.z / rr) * (coords.y / rr) - f * (v * coords.z / rr) * (coords.y / rr / rr);
+        data_t pi3 = - f_prime * (v * coords.z / rr) * (coords.z / rr) - f * (v * coords.z / rr) * (coords.z / rr / rr) - f * v / rr;
+
+        current_cell.store_vars(pi1, c_Pi1);
+        current_cell.store_vars(pi2, c_Pi2);
+        current_cell.store_vars(pi3, c_Pi3);
 
         // morris: adding metric components
         current_cell.store_vars(1.0, c_chi);
