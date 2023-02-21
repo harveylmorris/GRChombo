@@ -51,9 +51,9 @@ scalar_mass = 1e-5  #not used
 pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
-num_elements = 20001 	#if it is larger that what is specified, it will use the last value to extrapolate
-center_monopole1 = 256 256 224
-center_monopole2 = 256 256 288
+num_elements = 10001 	#if it is larger that what is specified, it will use the last value to extrapolate
+center_monopole1 = 256 256 192
+center_monopole2 = 256 256 320
 twist = 3.141592653589793  # twist of monopole-antimonopole = pi
 
 vel_z = 0.1
@@ -99,7 +99,7 @@ tag_buffer_size = 0 # this example uses a fixed grid
 # grid_buffer_size = 8
 # fill_ratio = 0.7
 # num_ghosts = 3
-# center = 128.0 128.0 128.0 # defaults to center of the grid
+# center = 256.0 256.0 256.0 # defaults to center of the grid
 
 #################################################
 # Boundary Conditions parameters
