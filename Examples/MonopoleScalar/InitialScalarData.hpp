@@ -160,6 +160,7 @@ class InitialScalarData
         current_cell.store_vars(pi3, c_Pi3);
 
         // morris: adding metric components
+        current_cell.store_vars(1.0, c_lapse); 
         current_cell.store_vars(1.0, c_chi);
         current_cell.store_vars(1.0, c_h11);
         current_cell.store_vars(1.0, c_h22);
