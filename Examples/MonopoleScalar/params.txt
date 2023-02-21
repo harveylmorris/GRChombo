@@ -54,7 +54,7 @@ spacing = 0.1
 num_elements = 200001 	#if it is larger that what is specified, it will use the last value to extrapolate
 center_monopole1 = 256 256 198
 center_monopole2 = 256 256 316
-twist = 3.141592653589793  # twist of monopole-antimonopole = pi
+twist = 0  # Goes from 0 to 1. Pi is multiplied in SimulationParams
 
 vel_z = 0.0
 
@@ -85,7 +85,7 @@ max_level = 1 # There are (max_level+1) grids, so min is zero
 # Level Regridding: 0   1   2   3   4   5
 regrid_interval   = 0   0   0   0   0   0
 # regrid_threshold  = 0.5
-threshold_phi = 0.015
+threshold_phi = 0.01
 threshold_K = 1
 
 regrid_interval = 4 4 2 2 0 0
@@ -142,7 +142,7 @@ extrapolating_vars = phi Pi
 
 # dt will be dx*dt_multiplier on each grid level
 dt_multiplier = 0.25
-stop_time = 100.0
+stop_time = 200.0
 # max_steps = 4
 
 # Spatial derivative order (only affects CCZ4 RHS)

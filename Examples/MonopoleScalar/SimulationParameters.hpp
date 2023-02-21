@@ -59,7 +59,10 @@ class SimulationParameters : public SimulationParametersBase
         int num_elements;
         pp.load("num_elements", num_elements);
         pp.load("spacing", initial_params.spacing);
-        pp.load("twist", initial_params.twist);
+
+	double twist_0;
+        pp.load("twist", twist_0);
+	initial_params.twist = 2.0 * M_PI * twist_0;
         pp.load("vel_z", initial_params.vel_z);
 
 
