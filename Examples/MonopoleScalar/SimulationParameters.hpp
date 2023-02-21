@@ -61,6 +61,9 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("spacing", initial_params.spacing);
         pp.load("twist", initial_params.twist);
 
+        pp.load("threshold_phi", threshold_phi);
+        pp.load("threshold_K", threshold_K);
+
         double initial_f[num_elements];
         double initial_f_prime[num_elements];
 
@@ -115,7 +118,7 @@ class SimulationParameters : public SimulationParametersBase
     }
 
     // Initial data for matter and potential and BH
-    double G_Newton;
+    double G_Newton, threshold_phi, threshold_K;
     InitialScalarData::params_t initial_params;
     Potential::params_t potential_params;
     KerrBH::params_t kerr_params;

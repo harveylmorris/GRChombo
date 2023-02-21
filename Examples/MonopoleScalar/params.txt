@@ -71,7 +71,7 @@ kerr_spin = 0.0
 # 'N2' or 'N2_full' and 'N3' or 'N3_full' ( then dx_coarsest = L/N(max) )
 # NB - the N values need to be multiples of the block_factor
 N_full = 128
-L_full = 256
+L_full = 512
 
 # Maximum number of times you can regrid above coarsest level
 max_level = 1 # There are (max_level+1) grids, so min is zero
@@ -83,6 +83,8 @@ max_level = 1 # There are (max_level+1) grids, so min is zero
 # Level Regridding: 0   1   2   3   4   5
 regrid_interval   = 0   0   0   0   0   0
 # regrid_threshold  = 0.5
+threshold_phi = 0.02
+threshold_K = 1
 
 regrid_interval = 0 0 0 0 0 0
 

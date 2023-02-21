@@ -18,7 +18,7 @@
 #include "NewMatterConstraints.hpp"
 
 // For tag cells
-#include "FixedGridsTaggingCriterion.hpp"
+#include "PhiAndKTaggingCriterion.hpp"
 
 // Problem specific includes
 #include "ComputePack.hpp"
@@ -128,6 +128,6 @@ void ScalarFieldLevel::computeTaggingCriterion(
     const FArrayBox &current_state_diagnostics)
 {
     BoxLoops::loop(
-        FixedGridsTaggingCriterion(m_dx, m_level, 2.0 * m_p.L, m_p.center),
+        PhiAndKTaggingCriterion(m_dx, m_p.threshold_phi, m_p.threshold_K),
         current_state, tagging_criterion);
 }
