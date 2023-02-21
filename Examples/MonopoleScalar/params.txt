@@ -17,8 +17,8 @@ checkpoint_interval = 20
 # set to 0 to turn off plot files (except at t=0 and t=stop_time)
 # set to -1 to never ever print plotfiles
 plot_interval = 1
-num_plot_vars = 7
-plot_vars = chi phi1 phi2 phi3 Pi1 Pi2 Pi3
+num_plot_vars = 8
+plot_vars = chi phi1 phi2 phi3 Pi1 Pi2 Pi3 rho
 
 # subpaths - specific directories for hdf5, pout, extraction data
 # (these are created at runtime)
@@ -54,7 +54,7 @@ spacing = 0.1
 num_elements = 200001 	#if it is larger that what is specified, it will use the last value to extrapolate
 center_monopole1 = 256 256 198
 center_monopole2 = 256 256 316
-twist = 0  # Goes from 0 to 1. Pi is multiplied in SimulationParams
+twist = 0.  # Goes from 0 to 1. Pi is multiplied in SimulationParams
 
 vel_z = 0.0
 

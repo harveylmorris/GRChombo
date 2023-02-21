@@ -143,6 +143,8 @@ void Constraints::store_vars(Vars<data_t> &out,
         data_t Mom_abs_terms = sqrt(Mom_abs_terms_sq);
         current_cell.store_vars(Mom_abs_terms, m_c_Moms_abs_terms.begin());
     }
+
+    current_cell.store_vars(out.rho, c_rho);
 }
 
 #endif /* NEWCONSTRAINTS_IMPL_HPP_ */

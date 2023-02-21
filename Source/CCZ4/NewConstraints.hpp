@@ -36,6 +36,7 @@ class Constraints
         data_t Ham_abs_terms;
         Tensor<1, data_t> Mom;
         Tensor<1, data_t> Mom_abs_terms;
+	data_t rho;
     };
 
     // Constructor which allows specifying Ham and Mom vars

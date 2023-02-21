@@ -58,6 +58,9 @@ void MatterConstraints<matter_t>::compute(Cell<data_t> current_cell) const
                 8.0 * M_PI * m_G_Newton * abs(emtensor.Si[i]);
         }
     }
+
+    out.rho = emtensor.rho;
+
     // Write the constraints into the output FArrayBox
     store_vars(out, current_cell);
 }
