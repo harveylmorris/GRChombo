@@ -60,6 +60,8 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("num_elements", num_elements);
         pp.load("spacing", initial_params.spacing);
         pp.load("twist", initial_params.twist);
+        pp.load("vel_z", initial_params.vel_z);
+
 
         pp.load("threshold_phi", threshold_phi);
         pp.load("threshold_K", threshold_K);

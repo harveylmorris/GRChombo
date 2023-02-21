@@ -44,6 +44,7 @@ class InitialScalarData
         double *p_initial_f_prime;
         double spacing;
         double twist;
+	double vel_z;
     };
 
     //! The constructor
@@ -149,11 +150,11 @@ class InitialScalarData
         //float pi2 = v_y * d1.phi2[2];
         //float pi3 = v_z * d1.phi3[3];
 
-        double v = 0.1;  // speed at which monopole is moving
+        double v = m_params.vel_z;  // speed at which monopole is moving
 
-        data_t pi1 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.x / rr) - f * (v * coords.z / rr) * (coords.x / rr / rr));
-        data_t pi2 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.y / rr) - f * (v * coords.z / rr) * (coords.y / rr / rr));
-        data_t pi3 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.z / rr) - f * (v * coords.z / rr) * (coords.z / rr / rr) - f * v / rr);
+        data_t pi1 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.x / rr) + f * (v * coords.z / rr) * (coords.x / rr / rr));
+        data_t pi2 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.y / rr) + f * (v * coords.z / rr) * (coords.y / rr / rr));
+        data_t pi3 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.z / rr) + f * (v * coords.z / rr) * (coords.z / rr / rr) - f * v / rr);
 
         current_cell.store_vars(pi1, c_Pi1);
         current_cell.store_vars(pi2, c_Pi2);
