@@ -114,6 +114,21 @@ class InitialScalarData
         current_cell.store_vars(phi1, c_phi1);
         current_cell.store_vars(phi2, c_phi2);
         current_cell.store_vars(phi3, c_phi3);
+
+        // pushing the monopoles together
+        // calculate first derivatives
+        //const auto d1 = m_deriv.template diff1<Vars>(current_cell);
+        // questions:
+        // format of pi?? as not sure how pi1 relates to pi_x
+        // ballpark for starting v_x, v_y, v_z values
+        //float v_x = 0;
+        //float v_y = 0;
+        //float v_z = 0;
+        //float pi1 = v_x * d1.phi1[1];
+        //float pi2 = v_y * d1.phi2[2];
+        //float pi3 = v_z * d1.phi3[3];
+
+        // pi_x = v_x d/dx (phi)
         current_cell.store_vars(0.0, c_Pi1);
         current_cell.store_vars(0.0, c_Pi2);
         current_cell.store_vars(0.0, c_Pi3);
