@@ -35,8 +35,7 @@ class Potential
     //void compute_potential(data_t &V_of_phi, data_t &dVdphi,
     //                       const vars_t<data_t> &vars) const
     // NEW
-    void compute_potential(data_t &V_of_phi1, data_t &V_of_phi2,
-                           data_t &V_of_phi3, data_t &dVdphi1,
+    void compute_potential(data_t &V_of_phi, data_t &dVdphi1,
                            data_t &dVdphi2, data_t &dVdphi3,
                            const vars_t<data_t> &vars) const
     {
@@ -65,20 +64,17 @@ class Potential
         /////////////////////////////////////
         
         // NEW
-        V_of_phi1 = 0.25 * m_params.pot_lambda *
-                   pow(pow(vars.phi1, 2) - pow(m_params.pot_eta, 2), 2);
-        V_of_phi2 = 0.25 * m_params.pot_lambda *
-                   pow(pow(vars.phi2, 2) - pow(m_params.pot_eta, 2), 2);
-        V_of_phi3 = 0.25 * m_params.pot_lambda *
-                   pow(pow(vars.phi3, 2) - pow(m_params.pot_eta, 2), 2);
+        V_of_phi = 0.25 * m_params.pot_lambda *
+                   pow(pow(vars.phi1, 2) + pow(vars.phi2, 2) + pow(vars.phi3, 2) - pow(m_params.pot_eta, 2), 2);
+
         // The potential gradient at phi
         // lambda * phi * (phi^2 - eta^2)
         dVdphi1 = m_params.pot_lambda * vars.phi1 *
-                 (pow(vars.phi1, 2) - pow(m_params.pot_eta, 2));
+                 (pow(vars.phi1, 2) + pow(vars.phi2, 2) + pow(vars.phi3, 2) - pow(m_params.pot_eta, 2));
         dVdphi2 = m_params.pot_lambda * vars.phi2 *
-                 (pow(vars.phi2, 2) - pow(m_params.pot_eta, 2));
+                 (pow(vars.phi1, 2) + pow(vars.phi2, 2) + pow(vars.phi3, 2) - pow(m_params.pot_eta, 2));
         dVdphi3 = m_params.pot_lambda * vars.phi3 *
-                 (pow(vars.phi3, 2) - pow(m_params.pot_eta, 2));
+                 (pow(vars.phi1, 2) + pow(vars.phi2, 2) + pow(vars.phi3, 2) - pow(m_params.pot_eta, 2));
     }
 };
 

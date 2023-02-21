@@ -56,7 +56,7 @@ center_monopole1 = 256 256 224
 center_monopole2 = 256 256 288
 twist = 3.141592653589793  # twist of monopole-antimonopole = pi
 
-vel_z = 0.0
+vel_z = 0.1
 
 # Kerr BH data
 kerr_mass = 1.0

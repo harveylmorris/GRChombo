@@ -39,21 +39,19 @@ emtensor_t<data_t> ScalarField<potential_t>::compute_emtensor(
 
     // morris: NEW with 3 scalar fields:
     // set the potential values
-    data_t V_of_phi1 = 0.0;
-    data_t V_of_phi2 = 0.0;
-    data_t V_of_phi3 = 0.0;
+    data_t V_of_phi = 0.0;
     data_t dVdphi1 = 0.0;
     data_t dVdphi2 = 0.0;
     data_t dVdphi3 = 0.0;
 
     // compute potential and add constributions to EM Tensor
-    my_potential.compute_potential(V_of_phi1, V_of_phi2, V_of_phi3,
+    my_potential.compute_potential(V_of_phi, 
                                    dVdphi1, dVdphi2, dVdphi3, vars);
 
-    out.rho += V_of_phi1 + V_of_phi2 + V_of_phi3;
-    out.S += -3.0 * (V_of_phi1 + V_of_phi2 + V_of_phi3);
+    out.rho += V_of_phi;
+    out.S += -3.0 * (V_of_phi);
 
-    FOR(i, j) { out.Sij[i][j] += -vars.h[i][j] * (V_of_phi1 + V_of_phi2 + V_of_phi3) / vars.chi; }
+    FOR(i, j) { out.Sij[i][j] += -vars.h[i][j] * (V_of_phi) / vars.chi; }
 
     return out;
 }
@@ -155,13 +153,11 @@ void ScalarField<potential_t>::add_matter_rhs(
     /////////////////////////////////////
 
     // NEW
-    data_t V_of_phi1 = 0.0;
-    data_t V_of_phi2 = 0.0;
-    data_t V_of_phi3 = 0.0;
+    data_t V_of_phi = 0.0;
     data_t dVdphi1 = 0.0;
     data_t dVdphi2 = 0.0;
     data_t dVdphi3 = 0.0;
-    my_potential.compute_potential(V_of_phi1, V_of_phi2, V_of_phi3,
+    my_potential.compute_potential(V_of_phi,
                                    dVdphi1, dVdphi2, dVdphi3, vars);
     // adjust RHS for the potential term
     total_rhs.Pi1 += -vars.lapse * dVdphi1;
