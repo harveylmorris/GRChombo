@@ -5,7 +5,7 @@ import sys
 
 yt.enable_parallelism()
 
-data_location = "../hdf5/ScalarFieldp_00000*"  # Data file location
+data_location = "/work/ta084/ta084/harveymorris/single_monopole_flat_test/hdf5/ScalarFieldp_00000*"  # Data file location
 
 # Loading dataset
 ts = yt.DatasetSeries(data_location)
