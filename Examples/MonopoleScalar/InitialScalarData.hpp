@@ -127,31 +127,9 @@ class InitialScalarData
         current_cell.store_vars(phi2, c_phi2);
         current_cell.store_vars(phi3, c_phi3);
 
-        // boosting monopole
-        //double v = 0.1;  // speed at which monopole is moving
-        //data_t pi1 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.x / rr) - f * (v * coords.z / rr) * (coords.x / rr / rr));
-        //data_t pi2 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.y / rr) - f * (v * coords.z / rr) * (coords.y / rr / rr));
-        //data_t pi3 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.z / rr) - f * (v * coords.z / rr) * (coords.z / rr / rr) - f * v / rr);
-
-        //current_cell.store_vars(pi1, c_Pi1);
-        //current_cell.store_vars(pi2, c_Pi2);
-        //current_cell.store_vars(pi3, c_Pi3);
-        //float v_x = 0;
-        //float v_y = 0;
-        //float v_z = 0;
-        //float pi1 = v_x * d1.phi1[1];
-        //float pi2 = v_y * d1.phi2[2];
-        //float pi3 = v_z * d1.phi3[3];
-
-//        double v = m_params.vel_z;  // speed at which monopole is moving
-
-//        data_t pi1 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.x / rr) + f * (v * coords.z / rr) * (coords.x / rr / rr));
-//        data_t pi2 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.y / rr) + f * (v * coords.z / rr) * (coords.y / rr / rr));
-//        data_t pi3 = m_params.pot_eta * (- f_prime * (v * coords.z / rr) * (coords.z / rr) + f * (v * coords.z / rr) * (coords.z / rr / rr) - f * v / rr);
-
-//        current_cell.store_vars(pi1, c_Pi1);
-//        current_cell.store_vars(pi2, c_Pi2);
-//        current_cell.store_vars(pi3, c_Pi3);
+        current_cell.store_vars(0.0, c_Pi1);
+        current_cell.store_vars(0.0, c_Pi2);
+        current_cell.store_vars(0.0, c_Pi3);
 
         // morris: adding metric components
         current_cell.store_vars(1.0, c_lapse); 
