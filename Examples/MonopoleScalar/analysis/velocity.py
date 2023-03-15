@@ -6,10 +6,7 @@ import matplotlib.pyplot as plt
 
 # Open the HDF5 file in read-only mode
 
-file_name = "/work/ta084/ta084/harveymorris/single_monopole_flat_test/hdf5/ScalarFieldp_000000.3d.hdf5"
-
-# Load the dataset using yt
-ds = yt.load(file_name)
+base_file_name = "/work/ta084/ta084/harveymorris/single_monopole_flat_test/hdf5/ScalarFieldp_000" #000.3d.hdf5"
 
 def get_centre_of_monopole(rho: np.ndarray) -> Tuple[float, float]:
     total_sum = np.sum(rho)
@@ -21,13 +18,23 @@ def get_centre_of_monopole(rho: np.ndarray) -> Tuple[float, float]:
             idx2_mean += rho[idx1, idx2] * idx2 / total_sum
     return idx1_mean, idx2_mean
 
-print(np.array(ds.slice(0, 256)["rho"]).shape)
+def pad_string_number(num: int) -> str:
+    number = str(num)
+    while len(number) < 3:
+        number = '0' + number
+    return number
 
-monopole_rho = np.array(ds.slice(1, 256)["rho"])#.reshape(128, 128)
 
-np.save('monopole_rho.npy', monopole_rho)
+def get_z_location(file_name: str) -> float:
+    ds = yt.load(file_name)
+    monopole_rho = ds.slice(0, 256)["rho"].to_ndarray().reshape(128, 128)[:, :64]
+    np.save('monopole_rho.npy', monopole_rho)
+    print(get_centre_of_monopole(rho=monopole_rho)[1])
+    
 
-#print(get_centre_of_monopole(rho=monopole_rho))
+get_z_location(file_name=base_file_name + "000.3d.hdf5")
+
+
 
 
 # Convert the dataset to a numpy array
