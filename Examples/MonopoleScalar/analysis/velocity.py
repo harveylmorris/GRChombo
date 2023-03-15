@@ -27,13 +27,18 @@ def pad_string_number(num: int) -> str:
 
 def get_z_location(file_name: str) -> float:
     ds = yt.load(file_name)
-    monopole_rho = ds.slice(0, 256)["rho"].to_ndarray().reshape(128, 128)#[:, :64]
-    np.save('monopole_rho1.npy', monopole_rho)
-    print(get_centre_of_monopole(rho=monopole_rho)[1])
+    # only getting bottom half of monopole:
+    monopole_rho = ds.slice(0, 256)["rho"].to_ndarray().reshape(128, 128)[:, :64]
+    return get_centre_of_monopole(rho=monopole_rho)[1]
     
+centres = []
+for iteration in range(500):
+    centres.append(get_z_location(file_name=base_file_name + pad_string_number(num=iteration) + ".3d.hdf5"))
+    if iteration > 1:
+        if centres[-1] < centres[-2]:
+            break
 
-get_z_location(file_name=base_file_name + "000.3d.hdf5")
-
+np.save('monopole_centres.npy', centres)
 
 
 
