@@ -28,7 +28,7 @@ def pad_string_number(num: int) -> str:
 def get_z_location(file_name: str) -> float:
     ds = yt.load(file_name)
     monopole_rho = ds.slice(0, 256)["rho"].to_ndarray().reshape(128, 128)#[:, :64]
-    np.save('monopole_rho.npy', monopole_rho)
+    np.save('monopole_rho1.npy', monopole_rho)
     print(get_centre_of_monopole(rho=monopole_rho)[1])
     
 
