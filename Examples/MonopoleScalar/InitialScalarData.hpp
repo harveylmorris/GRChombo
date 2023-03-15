@@ -41,7 +41,6 @@ class InitialScalarData
         // morris
         double pot_eta;
         double *p_initial_f;
-        double *p_initial_f_prime;
         double spacing;
         double twist;
 	double vel_z;
