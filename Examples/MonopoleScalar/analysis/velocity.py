@@ -23,7 +23,7 @@ def get_centre_of_monopole(rho: np.ndarray) -> Tuple[float, float]:
 
 print(np.array(ds.slice(0, 256)["rho"]).reshape(128, 128))
 
-monopole_rho = np.array(ds.slice(0, 256)["rho"]).reshape(128, 128)
+monopole_rho = np.array(ds.slice(0, 256)["rho"])#.reshape(128, 128)
 
 np.save('monopole_rho.npy', monopole_rho)
 
