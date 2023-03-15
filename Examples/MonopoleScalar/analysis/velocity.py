@@ -21,7 +21,7 @@ def get_centre_of_monopole(rho: np.ndarray) -> Tuple[float, float]:
             idx2_mean += rho[idx1, idx2] * idx2 / total_sum
     return idx1_mean, idx2_mean
 
-print(np.array(ds.slice(0, 256)["rho"]).reshape(128, 128))
+print(np.array(ds.slice(0, 256)["rho"]).shape)
 
 monopole_rho = np.array(ds.slice(1, 256)["rho"])#.reshape(128, 128)
 
