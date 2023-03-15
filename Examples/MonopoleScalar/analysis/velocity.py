@@ -38,9 +38,8 @@ for iteration in range(500):
         if centres[-1] < centres[-2]:
             break
 
-np.save('monopole_centres.npy', centres)
-
-
+# not including final one as incorrect
+np.save('monopole_centres_twist_zero.npy', centres[:-1])
 
 # Convert the dataset to a numpy array
 #data = dataset.to_ndarray()
