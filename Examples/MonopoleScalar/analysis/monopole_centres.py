@@ -1,8 +1,6 @@
-import h5py
 import numpy as np
 import yt
 from typing import Tuple
-import matplotlib.pyplot as plt
 
 def get_centre_of_monopole(rho: np.ndarray) -> Tuple[float, float]:
     """ 
