@@ -9,7 +9,7 @@ verbosity = 0
 # location / naming of output files
 # output_path = "" # Main path for all files. Must exist!
 chk_prefix = ScalarField_
-plot_prefix = ScalarFieldp_vid_twistzero_
+plot_prefix = ScalarFieldp_
 # restart_file = ScalarField_000000.3d.hdf5
 
 # HDF5files are written every dt = L/N*dt_multiplier*checkpoint_interval
@@ -41,7 +41,7 @@ print_progress_only_to_rank_0 = 1
 # Here we decouple the evolution so the scalar evolved on the
 # metric background without backreaction (this avoids the need
 # to solve the constraints)
-G_Newton = 0.0
+G_Newton = 1.0
 
 # Scalar field initial data
 scalar_amplitude = 0.1
@@ -77,7 +77,7 @@ N_full = 128
 L_full = 512
 
 # Maximum number of times you can regrid above coarsest level
-max_level = 3 # There are (max_level+1) grids, so min is zero
+max_level = 1 # There are (max_level+1) grids, so min is zero
 
 # Frequency of regridding at each level and thresholds on the tagging
 # Need one for each level except the top one, ie max_level items

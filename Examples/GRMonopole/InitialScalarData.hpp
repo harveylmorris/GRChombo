@@ -96,11 +96,18 @@ class InitialScalarData
 
         // Adding metric components for GR:
 
-        double gammartp[3][3];
+        double gamma_sph[3][3];
 
-        //gammartp[0][0] = S2vals;
-        //gammartp[1][1] = S2vals * rho2;
-        //gammartp[2][2] = lapsevals * lapsevals;
+        // metric: ds^2 = B(r) dt^2 - A(r) dr^2 - r^2 (d{theta}^2 + sin^2(theta) d{phi}^2)
+        // so:
+        // gamma_rr = A(r)
+        // gamma_thetatheta = r^2
+        // gamma_phiphi = r^2 sin^2(theta)
+        // sin^2(theta) = 1 - cos^2(theta) = 1 - (z/r)^2
+
+        gamma_sph[0][0] = A;
+        gamma_sph[1][1] = rho * rho;
+        gamma_sph[2][2] = rho * rho * (1 - pow(zz / rho, 2));
 
         // Define jacobian for change of coordinates
 
@@ -124,7 +131,7 @@ class InitialScalarData
         FOR2(i,j)
         {
             FOR2(k,l){
-                gammaxyz[i][j] += gammartp[k][l]*jacobian[k][i]*jacobian[l][j];
+                gammaxyz[i][j] += gamma_sph[k][l]*jacobian[k][i]*jacobian[l][j];
             }
         }
 
@@ -136,12 +143,18 @@ class InitialScalarData
 
         data_t chi = pow(deth, -1./3.);
 
+        // QUESTION: not sure on lapse?
         current_cell.store_vars(1.0, c_lapse); 
-        current_cell.store_vars(1.0, c_chi);
+        current_cell.store_vars(chi, c_chi);
 
-        current_cell.store_vars(1.0, c_h11);
-        current_cell.store_vars(1.0, c_h22);
-        current_cell.store_vars(1.0, c_h33);
+        current_cell.store_vars(gammaxyz[0][0], c_h11);
+        current_cell.store_vars(gammaxyz[0][1], c_h12);
+        current_cell.store_vars(gammaxyz[0][2], c_h13);
+
+        current_cell.store_vars(gammaxyz[1][1], c_h22);
+        current_cell.store_vars(gammaxyz[1][2], c_h23);
+        
+        current_cell.store_vars(gammaxyz[2][2], c_h33);
     }
 
   protected:
