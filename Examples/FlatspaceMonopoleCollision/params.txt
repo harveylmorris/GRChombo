@@ -52,7 +52,6 @@ pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
 num_elements = 400001 	#if it is larger that what is specified, it will use the last value to extrapolate
-# we don't use the monopole centres below, as only single monopole in this case
 center_monopole1 = 256 256 162
 center_monopole2 = 256 256 350
 twist = 0.  # Goes from 0 to 1. 2Pi is multiplied in SimulationParams
@@ -143,7 +142,7 @@ extrapolating_vars = phi Pi
 
 # dt will be dx*dt_multiplier on each grid level
 dt_multiplier = 0.25
-stop_time = 100.0
+stop_time = 3000.0
 # max_steps = 4
 
 # Spatial derivative order (only affects CCZ4 RHS)

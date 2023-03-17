@@ -69,9 +69,9 @@ class SimulationParameters : public SimulationParametersBase
         pp.load("threshold_K", threshold_K);
 
         double initial_f[num_elements];
-        double initial_A[num_elements];
+        double initial_f_prime[num_elements];
 
-        ifstream initial_f_file("gr_initial_f_eta7e-2.txt");
+        ifstream initial_f_file("flatspace_initial_f_eta7e-2.txt");
         double tmp1 = 0;
         for (int i = 0; i < num_elements; ++i)
         {
@@ -80,17 +80,7 @@ class SimulationParameters : public SimulationParametersBase
         }
         initial_f_file.close();
 
-        ifstream initial_A_file("gr_initial_A_eta7e-2.txt");
-        double tmp2 = 0;
-        for (int i = 0; i < num_elements; ++i)
-        {
-            initial_A_file >> tmp2;
-            initial_A[i] = tmp2;
-        }
-        initial_A_file.close();
-
         initial_params.p_initial_f = initial_f;
-        initial_params.p_initial_A = initial_A;
 
     }
 

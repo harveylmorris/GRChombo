@@ -9,7 +9,7 @@ verbosity = 0
 # location / naming of output files
 # output_path = "" # Main path for all files. Must exist!
 chk_prefix = ScalarField_
-plot_prefix = ScalarFieldp_
+plot_prefix = ScalarFieldp_vid_twistzero_
 # restart_file = ScalarField_000000.3d.hdf5
 
 # HDF5files are written every dt = L/N*dt_multiplier*checkpoint_interval
@@ -40,7 +40,7 @@ print_progress_only_to_rank_0 = 1
 # Default is 1.0, for standard geometric units
 # Here we decouple the evolution so the scalar evolved on the
 # metric background without backreaction (this avoids the need
-# to solve the constaints)
+# to solve the constraints)
 G_Newton = 0.0
 
 # Scalar field initial data
@@ -52,8 +52,9 @@ pot_eta = 0.07
 pot_lambda = 1
 spacing = 0.1
 num_elements = 400001 	#if it is larger that what is specified, it will use the last value to extrapolate
-center_monopole1 = 512 512 512
-center_monopole2 = 512 512 896
+# we don't use the monopole centres below, as only single monopole in this case
+center_monopole1 = 256 256 162
+center_monopole2 = 256 256 350
 twist = 0.  # Goes from 0 to 1. 2Pi is multiplied in SimulationParams
 
 vel_z = 0.0
@@ -72,11 +73,11 @@ kerr_spin = 0.0
 # NB - if you have a non-cubic grid, you can specify 'N1' or 'N1_full',
 # 'N2' or 'N2_full' and 'N3' or 'N3_full' ( then dx_coarsest = L/N(max) )
 # NB - the N values need to be multiples of the block_factor
-N_full = 256
-L_full = 1024
+N_full = 128
+L_full = 512
 
 # Maximum number of times you can regrid above coarsest level
-max_level = 2 # There are (max_level+1) grids, so min is zero
+max_level = 3 # There are (max_level+1) grids, so min is zero
 
 # Frequency of regridding at each level and thresholds on the tagging
 # Need one for each level except the top one, ie max_level items
@@ -99,7 +100,7 @@ tag_buffer_size = 0 # this example uses a fixed grid
 # grid_buffer_size = 8
 # fill_ratio = 0.7
 # num_ghosts = 3
-# center = 512.0 512.0 512.0 # defaults to center of the grid
+# center = 256.0 256.0 256.0 # defaults to center of the grid
 
 #################################################
 # Boundary Conditions parameters
@@ -142,7 +143,7 @@ extrapolating_vars = phi Pi
 
 # dt will be dx*dt_multiplier on each grid level
 dt_multiplier = 0.25
-stop_time = 1.0
+stop_time = 100.0
 # max_steps = 4
 
 # Spatial derivative order (only affects CCZ4 RHS)

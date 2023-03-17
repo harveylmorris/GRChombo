@@ -58,69 +58,24 @@ class InitialScalarData
         // where am i relative to center?
         Coordinates<data_t> coords(current_cell, m_dx, m_params.center);
 
-        // where am i relative to the 2 monopoles?
-        Coordinates<data_t> coords1(current_cell, m_dx, m_params.center_monopole1);
-        data_t rr1 = coords1.get_radius();
-        Coordinates<data_t> coords2(current_cell, m_dx, m_params.center_monopole2);
-        data_t rr2 = coords2.get_radius();
+        double rho = sqrt(coords.x * coords.x + coords.y * coords.y +
+                           coords.z * coords.z);
 
-        double rho1 = sqrt(coords1.x * coords1.x + coords1.y * coords1.y +
-                           coords1.z * coords1.z);
-        double rho2 = sqrt(coords2.x * coords2.x + coords2.y * coords2.y +
-                           coords2.z * coords2.z);
+        data_t rr = coords.get_radius();
 
         // field configuration describing a monopole is phi^a = eta * f(r) * x^a
         // / r first we find f based on r
 
-        int indxL1 = static_cast<int>(floor(rho1 / m_params.spacing));
-        int indxH1 = static_cast<int>(ceil(rho1 / m_params.spacing));
-        double f_data_L1 = *(m_params.p_initial_f + indxL1);
-        double f_data_H1 = *(m_params.p_initial_f + indxH1);
+        int indxL = static_cast<int>(floor(rho / m_params.spacing));
+        int indxH = static_cast<int>(ceil(rho / m_params.spacing));
+        double f_data_L = *(m_params.p_initial_f + indxL);
+        double f_data_H = *(m_params.p_initial_f + indxH);
 
-        int indxL2 = static_cast<int>(floor(rho2 / m_params.spacing));
-        int indxH2 = static_cast<int>(ceil(rho2 / m_params.spacing));
-        double f_data_L2 = *(m_params.p_initial_f + indxL2);
-        double f_data_H2 = *(m_params.p_initial_f + indxH2);
+        data_t f = f_data_L + (rho / m_params.spacing - indxL) * (f_data_H - f_data_L);
 
-        data_t f1 =
-            f_data_L1 + (rho1 / m_params.spacing - indxL1) * (f_data_H1 - f_data_L1);
-
-        data_t f2 =
-            f_data_L2 + (rho2 / m_params.spacing - indxL2) * (f_data_H2 - f_data_L2);
-        
-        /////////////////////////////////////
-        // OLD
-        //data_t phi = m_params.pot_eta * f * coords.x / rr;
-        // store the vars
-        //current_cell.store_vars(phi, c_phi);
-        //current_cell.store_vars(0.0, c_Pi);
-        /////////////////////////////////////
-
-        // NEW
-        // eqns 22, 23, 24 from https://arxiv.org/pdf/1705.03091.pdf
-
-        double s = sin(m_params.twist);
-        double c = cos(m_params.twist);
-        double z_0 = sqrt((coords1.z - coords.z) * (coords1.z - coords.z));
-
-        data_t phi1 = m_params.pot_eta * f1 * f2 * ((c * coords.x + s * coords.y) *
-                                           ((coords.z + z_0) * c - (coords.z - z_0))
-                                           - (c * coords.y - s * coords.x) * rr2 * s) / rr1 / rr2;
-        data_t phi2 = m_params.pot_eta * f1 * f2 * ((c * coords.y - s * coords.x) *
-                                           ((coords.z + z_0) * c - (coords.z - z_0))
-                                           + (c * coords.x + s * coords.y) * rr2 * s) / rr1 / rr2;
-        data_t phi3 = m_params.pot_eta * f1 * f2 * ((coords.z - z_0) * (coords.z + z_0) +
-                                          (coords.x * coords.x + coords.y * coords.y) * c) / rr1 / rr2;
-        // store the vars
-
-        // BACK TO ONE MONOPOLE CASE BUT NOW WITH GALIEAN BOOST
-        // field configuration describing a monopole is phi^a = eta * f(r) * x^a
-        // / r first we find f based on r
-        //data_t f_prime = f_prime_data_L + (rho / m_params.spacing - indxL) * (f_prime_data_H - f_prime_data_L);
-
-        //data_t phi1 = m_params.pot_eta * f * coords.x / rr;
-        //data_t phi2 = m_params.pot_eta * f * coords.y / rr;
-        //data_t phi3 = m_params.pot_eta * f * coords.z / rr;
+        data_t phi1 = m_params.pot_eta * f * coords.x / rr;
+        data_t phi2 = m_params.pot_eta * f * coords.y / rr;
+        data_t phi3 = m_params.pot_eta * f * coords.z / rr;
 
         current_cell.store_vars(phi1, c_phi1);
         current_cell.store_vars(phi2, c_phi2);
