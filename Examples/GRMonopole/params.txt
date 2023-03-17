@@ -53,8 +53,6 @@ pot_lambda = 1
 spacing = 0.1
 num_elements = 400001 	#if it is larger that what is specified, it will use the last value to extrapolate
 # we don't use the monopole centres below, as only single monopole in this case
-center_monopole1 = 256 256 162
-center_monopole2 = 256 256 350
 twist = 0.  # Goes from 0 to 1. 2Pi is multiplied in SimulationParams
 
 vel_z = 0.0

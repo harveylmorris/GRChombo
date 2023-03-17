@@ -33,10 +33,6 @@ class InitialScalarData
         double amplitude; //!< Amplitude of bump in initial SF bubble
         std::array<double, CH_SPACEDIM>
             center;   //!< Centre of perturbation in initial SF bubble
-        std::array<double, CH_SPACEDIM>
-            center_monopole1;   //!< Centre of perturbation in initial SF bubble
-        std::array<double, CH_SPACEDIM>
-            center_monopole2;   //!< Centre of perturbation in initial SF bubble
         double width; //!< Width of bump in initial SF bubble
         // morris
         double pot_eta;
@@ -80,7 +76,6 @@ class InitialScalarData
 
         data_t f = f_data_L + (rho / m_params.spacing - indxL) * (f_data_H - f_data_L);
         data_t A = A_data_L + (rho / m_params.spacing - indxL) * (A_data_H - A_data_L);
-        data_t B = 1 / A;
 
         data_t phi1 = m_params.pot_eta * f * coords.x / rr;
         data_t phi2 = m_params.pot_eta * f * coords.y / rr;
@@ -96,7 +91,7 @@ class InitialScalarData
 
         // Adding metric components for GR:
 
-        double gamma_sph[3][3];
+        double gamma_sph[3][3] = {0};
 
         // metric: ds^2 = B(r) dt^2 - A(r) dr^2 - r^2 (d{theta}^2 + sin^2(theta) d{phi}^2)
         // so:
@@ -126,7 +121,7 @@ class InitialScalarData
         jacobian[2][2] = 0.0;
 
         // Coordinate transformation : Spherical -> Cartesian
-        double gammaxyz[3][3];
+        double gammaxyz[3][3] = {0};
 
         FOR2(i,j)
         {
@@ -145,7 +140,7 @@ class InitialScalarData
 
         // QUESTION: not sure on lapse?
         current_cell.store_vars(1.0, c_lapse); 
-        current_cell.store_vars(chi, c_chi);
+        current_cell.store_vars(1.0, c_chi);
 
         current_cell.store_vars(gammaxyz[0][0], c_h11);
         current_cell.store_vars(gammaxyz[0][1], c_h12);
