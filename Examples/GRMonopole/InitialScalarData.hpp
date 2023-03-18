@@ -33,6 +33,10 @@ class InitialScalarData
         double amplitude; //!< Amplitude of bump in initial SF bubble
         std::array<double, CH_SPACEDIM>
             center;   //!< Centre of perturbation in initial SF bubble
+        std::array<double, CH_SPACEDIM>
+            center_monopole1;   //!< Centre of perturbation in initial SF bubble
+        std::array<double, CH_SPACEDIM>
+            center_monopole2;   //!< Centre of perturbation in initial SF bubble
         double width; //!< Width of bump in initial SF bubble
         // morris
         double pot_eta;
@@ -55,27 +59,31 @@ class InitialScalarData
         // where am i relative to center?
         Coordinates<data_t> coords(current_cell, m_dx, m_params.center);
 
-        double rho = sqrt(coords.x * coords.x + coords.y * coords.y +
-                           coords.z * coords.z);
-        
         double xx = coords.x;
         double yy = coords.y;
         double zz = coords.z;
 
         data_t rr = coords.get_radius();
 
+
+	data_t costh = zz / rr;
+	data_t sinth = sqrt(1.0 - costh*costh);
+	data_t sinph = yy / xx / sqrt(1.0 + pow(yy/xx,2.0));
+	data_t cosph = 1.0 / sqrt(1.0 + pow(yy/xx, 2.0));
+ 
         // field configuration describing a monopole is phi^a = eta * f(r) * x^a
         // / r first we find f based on r
 
-        int indxL = static_cast<int>(floor(rho / m_params.spacing));
-        int indxH = static_cast<int>(ceil(rho / m_params.spacing));
+        int indxL = static_cast<int>(floor(rr / m_params.spacing));
+        int indxH = static_cast<int>(ceil(rr / m_params.spacing));
         double f_data_L = *(m_params.p_initial_f + indxL);
         double f_data_H = *(m_params.p_initial_f + indxH);
         double A_data_L = *(m_params.p_initial_A + indxL);
         double A_data_H = *(m_params.p_initial_A + indxH);
 
-        data_t f = f_data_L + (rho / m_params.spacing - indxL) * (f_data_H - f_data_L);
-        data_t A = A_data_L + (rho / m_params.spacing - indxL) * (A_data_H - A_data_L);
+        data_t f = f_data_L + (rr / m_params.spacing - indxL) * (f_data_H - f_data_L);
+        data_t A = A_data_L + (rr / m_params.spacing - indxL) * (A_data_H - A_data_L);
+        data_t B = 1.0 / A;
 
         data_t phi1 = m_params.pot_eta * f * coords.x / rr;
         data_t phi2 = m_params.pot_eta * f * coords.y / rr;
@@ -91,7 +99,8 @@ class InitialScalarData
 
         // Adding metric components for GR:
 
-        double gamma_sph[3][3] = {0};
+        double gamma_sph[3][3];
+        FOR2(i,j){ gamma_sph[i][j] = 0.0;}
 
         // metric: ds^2 = B(r) dt^2 - A(r) dr^2 - r^2 (d{theta}^2 + sin^2(theta) d{phi}^2)
         // so:
@@ -101,28 +110,29 @@ class InitialScalarData
         // sin^2(theta) = 1 - cos^2(theta) = 1 - (z/r)^2
 
         gamma_sph[0][0] = A;
-        gamma_sph[1][1] = rho * rho;
-        gamma_sph[2][2] = rho * rho * (1 - pow(zz / rho, 2));
+        gamma_sph[1][1] = rr * rr;
+	gamma_sph[2][2] = rr * rr * pow(sinth,2.0);
 
         // Define jacobian for change of coordinates
 
         double jacobian[3][3];
 
-        jacobian[0][0] = xx/rho;
-        jacobian[1][0] = xx * zz / (pow(rho, 3) * pow(1 - pow(zz/rho, 2), 0.5));
-        jacobian[2][0] = - yy / (1 - pow(zz/rho, 2));
-        
-        jacobian[0][1] = yy/rho;
-        jacobian[1][1] = yy * zz / (pow(rho, 3) * pow(1 - pow(zz/rho, 2), 0.5));
-        jacobian[2][1] = xx / (1 - pow(zz/rho, 2));
-        
-        jacobian[0][2] = zz/rho;
-        jacobian[1][2] = - pow(1 - pow(zz/rho, 2), 0.5) / rho;
+        jacobian[0][0] = cosph * sinth;
+        jacobian[1][0] = costh * cosph / rr;
+        jacobian[2][0] = - sinph / (sinth * rr);
+
+        jacobian[0][1] = sinph * sinth;
+        jacobian[1][1] = costh * sinph / rr;
+        jacobian[2][1] = cosph / (sinth * rr);
+
+        jacobian[0][2] = costh;
+        jacobian[1][2] = - sinth / rr;
         jacobian[2][2] = 0.0;
 
         // Coordinate transformation : Spherical -> Cartesian
-        double gammaxyz[3][3] = {0};
+        double gammaxyz[3][3];
 
+	FOR2(i,j){ gammaxyz[i][j] = 0.0;}
         FOR2(i,j)
         {
             FOR2(k,l){
@@ -139,17 +149,24 @@ class InitialScalarData
         data_t chi = pow(deth, -1./3.);
 
         // QUESTION: not sure on lapse?
-        current_cell.store_vars(1.0, c_lapse); 
-        current_cell.store_vars(1.0, c_chi);
+        current_cell.store_vars(sqrt(B), c_lapse); 
+        current_cell.store_vars(chi, c_chi);
 
-        current_cell.store_vars(gammaxyz[0][0], c_h11);
-        current_cell.store_vars(gammaxyz[0][1], c_h12);
-        current_cell.store_vars(gammaxyz[0][2], c_h13);
+	data_t gammaxyz_conformal[3][3];
 
-        current_cell.store_vars(gammaxyz[1][1], c_h22);
-        current_cell.store_vars(gammaxyz[1][2], c_h23);
+	FOR2(i,j)
+	{
+		gammaxyz_conformal[i][j] = gammaxyz[i][j] * chi;
+	}
+
+        current_cell.store_vars(gammaxyz_conformal[0][0], c_h11);
+        current_cell.store_vars(gammaxyz_conformal[0][1], c_h12);
+        current_cell.store_vars(gammaxyz_conformal[0][2], c_h13);
+
+        current_cell.store_vars(gammaxyz_conformal[1][1], c_h22);
+        current_cell.store_vars(gammaxyz_conformal[1][2], c_h23);
         
-        current_cell.store_vars(gammaxyz[2][2], c_h33);
+        current_cell.store_vars(gammaxyz_conformal[2][2], c_h33);
     }
 
   protected:
